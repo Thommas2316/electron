@@ -649,6 +649,17 @@ bool Window::IsWindowMessageHooked(UINT message) {
 void Window::UnhookAllWindowMessages() {
   messages_callback_map_.clear();
 }
+
+bool Window::SetThumbnail(mate::Arguments* args) {
+  mate::Dictionary options;
+  args->GetNext(&options);
+
+  RECT client_area;
+  options.Get("x", &(client_area.x));
+
+  HRESULT result = SetThumbnailClip(window->GetAcceleratedWidget(), &client_area);
+  return result == S_OK;
+}
 #endif
 
 #if defined(TOOLKIT_VIEWS)
